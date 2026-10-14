@@ -314,11 +314,10 @@ section { padding-block: 96px; }
 .schools .btn { margin-top: 8px; justify-self: start; }
 
 /* FAQ */
-.faq { background: var(--surface); border-block: 1px solid var(--line); }
 .faq-list { display: grid; max-width: 820px; }
-.faq details { border-bottom: 1px solid var(--line); }
-.faq details:first-child { border-top: 1px solid var(--line); }
-.faq summary {
+.faq-list details { border-bottom: 1px solid var(--line); }
+.faq-list details:first-child { border-top: 1px solid var(--line); }
+.faq-list summary {
   cursor: pointer;
   list-style: none;
   display: flex;
@@ -329,10 +328,10 @@ section { padding-block: 96px; }
   font-size: 20px;
   font-weight: 600;
 }
-.faq summary::-webkit-details-marker { display: none; }
-.faq summary::after { content: "+"; font-size: 24px; line-height: 1; color: var(--muted); }
-.faq details[open] summary::after { content: "−"; }
-.faq details p { padding-bottom: 20px; color: var(--muted); max-width: 44em; }
+.faq-list summary::-webkit-details-marker { display: none; }
+.faq-list summary::after { content: "+"; font-size: 24px; line-height: 1; color: var(--muted); }
+.faq-list details[open] summary::after { content: "−"; }
+.faq-list details p { padding-bottom: 20px; color: var(--muted); max-width: 44em; }
 
 /* Download */
 .download-card {
@@ -396,6 +395,136 @@ footer { border-top: 1px solid var(--line); padding-block: 36px; font-size: 15px
 .footer-links { display: flex; flex-wrap: wrap; gap: 8px 22px; list-style: none; margin: 0; padding: 0; }
 .footer-links a { text-decoration: none; }
 .footer-links a:hover { color: var(--ink); text-decoration: underline; }
+
+/* Explorer */
+.level-tabs { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 24px; }
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 16px;
+  border-radius: 999px;
+  border: 1.5px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.pill:hover { border-color: var(--pill, var(--action)); }
+.pill .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--pill); }
+.pill[aria-selected="true"], .pill[aria-pressed="true"] { background: var(--pill, var(--action)); border-color: var(--pill, var(--action)); color: #FFFFFF; }
+.pill[aria-selected="true"] .dot { background: #FFFFFF; }
+.pill:disabled { opacity: 0.45; cursor: not-allowed; }
+.explorer { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 24px; align-items: start; }
+.explorer.single { grid-template-columns: minmax(0, 1fr); max-width: 760px; }
+@media (max-width: 900px) { .explorer { grid-template-columns: 1fr; } }
+.dir-list { display: grid; gap: 10px; }
+.dir-card {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+  width: 100%;
+  text-align: left;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1.5px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  cursor: pointer;
+}
+.dir-card:hover { border-color: var(--dir); }
+.dir-card[aria-pressed="true"] { border-color: var(--dir); box-shadow: inset 0 0 0 1px var(--dir); }
+.dir-card b { display: block; font-size: 17px; line-height: 1.3; }
+.dir-card small { color: var(--muted); font-size: 14px; }
+.badge {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--dir);
+  color: #FFFFFF;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 18px;
+  flex: none;
+}
+.detail {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 28px;
+  display: grid;
+  gap: 18px;
+  min-width: 0;
+}
+@media (max-width: 480px) { .detail { padding: 20px; } }
+.detail-head { display: flex; align-items: center; gap: 14px; }
+.detail h3 { font-size: clamp(26px, 3vw, 32px); }
+.facts { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 8px 18px; margin: 0; }
+@media (max-width: 480px) { .facts { grid-template-columns: 1fr; gap: 2px; } .facts dd { margin-bottom: 8px; } }
+.facts dt { font-weight: 600; color: var(--muted); font-size: 15px; }
+.facts dd { margin: 0; }
+.label { font-size: 13px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.chip { padding: 6px 12px; border-radius: 999px; background: color-mix(in srgb, var(--dir) 15%, transparent); font-size: 14px; font-weight: 600; }
+
+/* Locked: what only the app has. Placeholder bars, never the real text. */
+.locked { position: relative; border-radius: 14px; border: 1.5px dashed var(--line); overflow: hidden; min-height: 280px; display: grid; }
+.locked-preview { padding: 20px; display: grid; gap: 12px; align-content: start; filter: blur(2.5px); opacity: 0.75; user-select: none; }
+.bar { height: 10px; border-radius: 5px; background: var(--line); }
+.bar.head { height: 14px; width: 40%; background: color-mix(in srgb, var(--dir, var(--muted)) 40%, var(--line)); }
+.locked-cta {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 10px;
+  padding: 20px;
+  text-align: center;
+  background: color-mix(in srgb, var(--surface) 60%, transparent);
+}
+.locked-cta svg { width: 28px; height: 28px; color: var(--ink); }
+.locked-cta strong { font-family: var(--font-display); font-size: 21px; line-height: 1.2; max-width: 22em; text-wrap: balance; }
+.locked-cta ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; font-size: 15px; color: var(--muted); }
+.locked-cta .btn { margin-top: 6px; }
+
+/* Suggestion teaser */
+.picker { display: flex; flex-wrap: wrap; gap: 8px; max-width: 860px; }
+.picker-hint { margin-top: 14px; color: var(--muted); font-size: 15px; min-height: 1.6em; }
+.results { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; margin-top: 12px; }
+@media (max-width: 760px) { .results { grid-template-columns: 1fr; } }
+.result-card {
+  background: var(--paper);
+  border: 1.5px solid var(--dir);
+  border-radius: var(--radius);
+  padding: 22px;
+  display: grid;
+  gap: 10px;
+  align-content: start;
+}
+.result-card .detail-head { gap: 12px; }
+.result-card h3 { font-size: 24px; }
+.result-reason { font-weight: 600; color: var(--dir); }
+:root[data-theme="dark"] .result-reason { color: var(--ink); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .result-reason { color: var(--ink); } }
+
+/* Glossary teaser */
+.terms { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 860px) { .terms { grid-template-columns: 1fr; } }
+.term { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; display: grid; gap: 8px; align-content: start; }
+.term h3 { font-size: 21px; }
+.term p { color: var(--muted); font-size: 16px; }
+.terms .locked { grid-column: 1 / -1; min-height: 220px; }
+.locked-terms { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 860px) { .locked-terms { grid-template-columns: 1fr; } }
+.locked-terms div { display: grid; gap: 10px; }
+.locked-terms h3 { font-size: 19px; }
 </style>
 </head>
 <body>
@@ -407,8 +536,9 @@ footer { border-top: 1px solid var(--line); padding-block: 36px; font-size: 15px
       <span>Uddannelseskompasset</span>
     </a>
     <ul class="nav-links">
-      <li><a href="#funktioner">Funktioner</a></li>
-      <li><a href="#saadan">Sådan virker det</a></li>
+      <li><a href="#udforsk">Udforsk</a></li>
+      <li><a href="#forslag">Hvad passer til dig?</a></li>
+      <li><a href="#funktioner">Appen</a></li>
       <li><a href="#skoler">For skoler</a></li>
       <li><a href="#spoergsmaal">Spørgsmål</a></li>
       <li><a href="#kontakt">Kontakt</a></li>
@@ -423,10 +553,10 @@ footer { border-top: 1px solid var(--line); padding-block: 36px; font-size: 15px
       <div class="hero-copy">
         <p class="eyebrow">Uddannelsesvejledning i lommen</p>
         <h1>Find den vej, der <em>passer til dig</em></h1>
-        <p class="lead">Uddannelseskompasset samler ungdomsuddannelser, videregående uddannelser og efteruddannelse ét sted. Se krav og snit, gem dine favoritter og få forslag ud fra dine interesser.</p>
+        <p class="lead">Uddannelseskompasset samler ungdomsuddannelser, videregående uddannelser og efteruddannelse ét sted. Kig rundt her på siden, og hent appen for krav, snit og forslag, der passer til dig.</p>
         <div class="hero-actions">
-          <a class="btn btn-primary" href="#hent">Hent appen</a>
-          <a class="btn btn-ghost" href="#saadan">Se hvordan den virker</a>
+          <a class="btn btn-primary" href="#udforsk">Udforsk uddannelser</a>
+          <a class="btn btn-ghost" href="#hent">Hent appen</a>
         </div>
         <p class="hero-note">Gratis for elever og studerende · Til iPhone, Android og web</p>
       </div>
@@ -458,42 +588,38 @@ footer { border-top: 1px solid var(--line); padding-block: 36px; font-size: 15px
     </div>
   </div>
 
-  <section id="retninger">
+  <section id="udforsk">
     <div class="wrap">
       <div class="section-head">
-        <p class="eyebrow">Fire veje ind</p>
-        <h2>Start med det, du leder efter</h2>
-        <p>Appens forside har fire indgange. Vælg den, der passer til, hvor du er nu, og kompasset viser dig retningerne derfra.</p>
+        <p class="eyebrow">Udforsk</p>
+        <h2>Kig rundt i uddannelserne</h2>
+        <p>Vælg, hvor du er nu, og se de retninger, du kan gå. Krav, snit og alle detaljer om hver uddannelse finder du i appen.</p>
       </div>
-      <div class="levels">
-        <article class="level" style="background: var(--c-ung)">
-          <h3>Ungdomsuddannelse</h3>
-          <p>Til dig, der skal vælge efter folkeskolen eller 10. klasse.</p>
-          <ul><li>Gymnasium</li><li>Erhvervsuddannelse</li><li>EUX</li><li>EPX</li></ul>
-        </article>
-        <article class="level" style="background: var(--c-vid)">
-          <h3>Videregående uddannelse</h3>
-          <p>Til dig, der har en ungdomsuddannelse og vil læse videre.</p>
-          <ul><li>Universitet</li><li>Professionshøjskole</li><li>Erhvervsakademi</li><li>Kunstneriske uddannelser</li></ul>
-        </article>
-        <article class="level" style="background: var(--c-eft)">
-          <h3>Efteruddannelse</h3>
-          <p>Til dig, der er i job og vil lære mere ved siden af.</p>
-          <ul><li>AMU-kurser</li><li>EUV</li><li>Akademi og diplom</li><li>Masteruddannelse</li></ul>
-        </article>
-        <article class="level" style="background: var(--c-and)">
-          <h3>Andet</h3>
-          <p>Til dig, der ikke ved, hvor du skal starte.</p>
-          <ul><li>Personlighedstest</li><li>AI-vejleder</li><li>Ordbog over uddannelsesord</li></ul>
-        </article>
+      <div class="level-tabs" role="tablist" aria-label="Vælg niveau" id="level-tabs"></div>
+      <div class="explorer">
+        <div class="dir-list" id="dir-list"></div>
+        <div class="detail" id="detail" aria-live="polite"></div>
       </div>
     </div>
   </section>
 
-  <section id="funktioner" class="how">
+  <section id="forslag" class="how">
     <div class="wrap">
       <div class="section-head">
-        <p class="eyebrow">Funktioner</p>
+        <p class="eyebrow">Hvad passer til dig?</p>
+        <h2>Vælg tre interesser, og få dit første forslag</h2>
+        <p>Appen finder 5 uddannelser og job ud fra dine interesser, yndlingsfag og drømmejob. Her kan du prøve den første del.</p>
+      </div>
+      <div class="picker" id="picker" role="group" aria-label="Interesser"></div>
+      <p class="picker-hint" id="picker-hint"></p>
+      <div class="results" id="results"></div>
+    </div>
+  </section>
+
+  <section id="funktioner">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">I appen</p>
         <h2>Alt det, du skal bruge for at vælge</h2>
         <p>Appen samler information, der ellers ligger spredt på mange hjemmesider, og gør den personlig.</p>
       </div>
@@ -532,7 +658,7 @@ footer { border-top: 1px solid var(--line); padding-block: 36px; font-size: 15px
     </div>
   </section>
 
-  <section id="saadan">
+  <section id="saadan" class="how">
     <div class="wrap">
       <div class="section-head">
         <p class="eyebrow">Sådan virker det</p>
@@ -552,6 +678,17 @@ footer { border-top: 1px solid var(--line); padding-block: 36px; font-size: 15px
           <p>Se krav, snit og muligheder, gem dine favoritter, og spørg AI-vejlederen om det, du er i tvivl om.</p>
         </li>
       </ol>
+    </div>
+  </section>
+
+  <section id="ordbog">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Ordbog</p>
+        <h2>Forstå ordene, før du vælger</h2>
+        <p>Uddannelsesverdenen er fuld af ord som merit, kvote 2 og adgangskvotient. Her er tre af dem.</p>
+      </div>
+      <div class="terms" id="terms"></div>
     </div>
   </section>
 
@@ -579,6 +716,10 @@ footer { border-top: 1px solid var(--line); padding-block: 36px; font-size: 15px
         <h2>Det bliver vi tit spurgt om</h2>
       </div>
       <div class="faq-list">
+        <details>
+          <summary>Hvorfor kan jeg ikke se krav og snit her på siden?</summary>
+          <p>Hjemmesiden giver dig et første overblik. Adgangskrav, snit, dine personlige forslag, favoritter og AI-vejlederen findes i appen, hvor de passer til dig og kan holdes opdaterede.</p>
+        </details>
         <details>
           <summary>Koster appen noget?</summary>
           <p>Nej, appen er gratis for elever og studerende. Skoler og kommuner, der vil bruge den i vejledningen, kan kontakte os.</p>
@@ -683,8 +824,219 @@ footer { border-top: 1px solid var(--line); padding-block: 36px; font-size: 15px
   </div>
 </footer>
 
+<script src="data.js"></script>
 <script>
-  // The form isn't connected to an inbox yet, so it only checks the fields and says so.
+  const D = window.UK_DATA;
+  const MaxInterests = 3;
+  const lockIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>';
+
+  const esc = (text) => String(text).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+  const directionById = (id) => D.directions.find((d) => d.id === id);
+
+  /** Placeholder rows standing in for app-only content. Widths vary so it reads as text. */
+  function bars(rows) {
+    const widths = [92, 78, 85, 64, 88, 70, 81, 58];
+    return rows.map((row, i) => row === 'head'
+      ? '<div class="bar head"></div>'
+      : `<div class="bar" style="width:${widths[i % widths.length]}%"></div>`).join('');
+  }
+
+  function lockedBlock(title, items, preview) {
+    return `<div class="locked">
+      <div class="locked-preview" aria-hidden="true">${preview}</div>
+      <div class="locked-cta">
+        ${lockIcon}
+        <strong>${esc(title)}</strong>
+        ${items.length ? `<ul>${items.map((item) => `<li>${esc(item)}</li>`).join('')}</ul>` : ''}
+        <a class="btn btn-primary" href="#hent">Hent appen</a>
+      </div>
+    </div>`;
+  }
+
+  // ---- Explorer ----
+  const state = { level: 'ungdomsuddannelse', direction: null };
+  const tabs = document.getElementById('level-tabs');
+  const list = document.getElementById('dir-list');
+  const detail = document.getElementById('detail');
+
+  function renderTabs() {
+    tabs.innerHTML = D.levels.map((level) => `
+      <button class="pill" role="tab" type="button" data-level="${level.id}"
+        aria-selected="${level.id === state.level}" style="--pill:${level.color}">
+        <span class="dot"></span>${esc(level.title)}
+      </button>`).join('');
+  }
+
+  function renderList() {
+    const directions = D.directions.filter((d) => d.level === state.level);
+    list.parentElement.classList.toggle('single', directions.length === 0);
+    if (directions.length === 0) {
+      list.innerHTML = '';
+      list.hidden = true;
+      return;
+    }
+    list.hidden = false;
+    list.innerHTML = directions.map((d) => `
+      <button class="dir-card" type="button" data-direction="${d.id}"
+        aria-pressed="${d.id === state.direction}" style="--dir:${d.color}">
+        <span class="badge">${esc(d.letter)}</span>
+        <span><b>${esc(d.title)}</b><small>${esc(d.duration)} · ${d.programs.length} uddannelser og job</small></span>
+      </button>`).join('');
+  }
+
+  function renderDetail() {
+    const level = D.levels.find((l) => l.id === state.level);
+
+    if (state.level === 'andet') {
+      detail.style.setProperty('--dir', level.color);
+      detail.innerHTML = `
+        <div class="detail-head"><span class="badge">?</span><h3>Ikke sikker endnu?</h3></div>
+        <p>Det er helt normalt ikke at vide, hvad man vil. I appen kan du finde ud af, hvad der passer til dig, på to måder.</p>
+        ${lockedBlock('Find ud af, hvad der passer til dig', [
+          'Personlighedstest med 12 spørgsmål',
+          'Se hvilken persona du er',
+          'Snak med AI-vejlederen om dine interesser',
+        ], bars(['head', 1, 2, 3, 'head', 1, 2]))}`;
+      return;
+    }
+
+    const d = directionById(state.direction);
+    detail.style.setProperty('--dir', d.color);
+    detail.innerHTML = `
+      <div class="detail-head"><span class="badge">${esc(d.letter)}</span><h3>${esc(d.title)}</h3></div>
+      <p>${esc(d.summary)}</p>
+      <dl class="facts">
+        <dt>Varighed</dt><dd>${esc(d.duration)}</dd>
+        <dt>Det fører til</dt><dd>${esc(d.leadsTo)}</dd>
+      </dl>
+      <div>
+        <p class="label">Uddannelser og job</p>
+        <div class="chips">${d.programs.map((name) => `<span class="chip">${esc(name)}</span>`).join('')}</div>
+      </div>
+      ${lockedBlock(`Se hvad det kræver at komme ind på ${d.title}`, [
+        `${d.admissionCount} regler for at komme ind`,
+        `Krav og snit for ${d.programs.length} uddannelser og job`,
+        'Gem som favorit, og spørg AI-vejlederen',
+      ], bars(['head', 1, 2, 3, 'head', 1, 2, 3, 4]))}`;
+  }
+
+  function selectLevel(levelId) {
+    state.level = levelId;
+    const first = D.directions.find((d) => d.level === levelId);
+    state.direction = first ? first.id : null;
+    renderTabs();
+    renderList();
+    renderDetail();
+  }
+
+  tabs.addEventListener('click', (event) => {
+    const button = event.target.closest('[data-level]');
+    if (button) selectLevel(button.dataset.level);
+  });
+
+  list.addEventListener('click', (event) => {
+    const button = event.target.closest('[data-direction]');
+    if (!button) return;
+    state.direction = button.dataset.direction;
+    renderList();
+    renderDetail();
+    // On phones the detail sits under the list, so bring it into view.
+    if (window.matchMedia('(max-width: 900px)').matches) {
+      detail.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+    }
+  });
+
+  selectLevel(state.level);
+
+  // ---- Suggestion teaser: interests only, first suggestion open ----
+  const picker = document.getElementById('picker');
+  const hint = document.getElementById('picker-hint');
+  const results = document.getElementById('results');
+  const chosen = [];
+
+  function suggestions() {
+    const scored = Object.entries(D.programInterests).map(([key, interests], order) => {
+      const [directionId, ...rest] = key.split(':');
+      const matches = interests.filter((i) => chosen.includes(i));
+      return { direction: directionById(directionId), program: rest.join(':'), matches, score: matches.length, order };
+    }).filter((s) => s.score > 0 && s.direction);
+
+    scored.sort((a, b) => b.score - a.score || a.order - b.order);
+
+    // At most two from the same direction, like in the app.
+    const perDirection = {};
+    const picked = [];
+    for (const s of scored) {
+      perDirection[s.direction.id] = (perDirection[s.direction.id] || 0) + 1;
+      if (perDirection[s.direction.id] > 2) continue;
+      picked.push(s);
+      if (picked.length === 5) break;
+    }
+    return picked;
+  }
+
+  function renderPicker() {
+    picker.innerHTML = D.interests.map((interest) => {
+      const on = chosen.includes(interest);
+      return `<button class="pill" type="button" data-interest="${esc(interest)}" aria-pressed="${on}"
+        ${!on && chosen.length >= MaxInterests ? 'disabled' : ''}>${esc(interest)}</button>`;
+    }).join('');
+  }
+
+  function renderResults() {
+    if (chosen.length === 0) {
+      hint.textContent = `Vælg op til ${MaxInterests} interesser.`;
+      results.innerHTML = '';
+      return;
+    }
+    const found = suggestions();
+    if (found.length === 0) {
+      hint.textContent = 'Vi fandt ikke noget her. Prøv en anden interesse, eller hent appen og tilføj dine yndlingsfag.';
+      results.innerHTML = '';
+      return;
+    }
+    hint.textContent = chosen.length < MaxInterests
+      ? `Du har valgt ${chosen.length} af ${MaxInterests}.`
+      : `Du har valgt ${MaxInterests} interesser.`;
+
+    const [first, ...others] = found;
+    const card = `
+      <article class="result-card" style="--dir:${first.direction.color}">
+        <p class="label">Dit første forslag</p>
+        <div class="detail-head"><span class="badge">${esc(first.direction.letter)}</span>
+          <div><h3>${esc(first.program)}</h3><p style="color:var(--muted)">${esc(first.direction.title)}</p></div></div>
+        <p class="result-reason">Passer til: ${first.matches.map(esc).join(', ')}</p>
+      </article>`;
+
+    const locked = others.length === 0
+      ? lockedBlock('Få flere forslag i appen', ['Tilføj yndlingsfag og drømmejob', 'Se hvad der kræves for at komme ind'], bars(['head', 1, 2, 'head', 1, 2]))
+      : lockedBlock(`Se dine ${others.length} andre forslag i appen`, ['Med begrundelse for hvert forslag', 'Bliver bedre med dine yndlingsfag og drømmejob'], bars(others.flatMap(() => ['head', 1, 2])));
+
+    results.innerHTML = card + locked;
+  }
+
+  picker.addEventListener('click', (event) => {
+    const button = event.target.closest('[data-interest]');
+    if (!button || button.disabled) return;
+    const interest = button.dataset.interest;
+    const index = chosen.indexOf(interest);
+    if (index >= 0) chosen.splice(index, 1);
+    else if (chosen.length < MaxInterests) chosen.push(interest);
+    renderPicker();
+    renderResults();
+  });
+
+  renderPicker();
+  renderResults();
+
+  // ---- Glossary teaser ----
+  const rest = D.glossary.total - D.glossary.open.length;
+  document.getElementById('terms').innerHTML =
+    D.glossary.open.map((t) => `<article class="term"><h3>${esc(t.term)}</h3><p>${esc(t.explanation)}</p></article>`).join('') +
+    lockedBlock(`${rest} ord mere i appen`, ['Fx ' + D.glossary.teaser.join(', ')],
+      `<div class="locked-terms">${D.glossary.teaser.map((term) => `<div><h3>${esc(term)}</h3>${bars([1, 2, 3])}</div>`).join('')}</div>`);
+
+  // ---- Contact form: not connected to an inbox yet, so it only checks the fields ----
   const form = document.getElementById('contact-form');
   const status = document.getElementById('form-status');
   form.addEventListener('submit', (event) => {
