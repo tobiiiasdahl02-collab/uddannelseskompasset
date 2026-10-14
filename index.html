@@ -1,0 +1,701 @@
+<!doctype html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Uddannelseskompasset</title>
+<meta name="description" content="Uddannelseskompasset samler ungdomsuddannelser, videregående uddannelser og efteruddannelse ét sted, med krav, snit, forslag og AI-vejledning.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=Public+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: an evening-sky hero with the app itself in a phone, then the app's own four level colours carry the sections. */
+:root {
+  --paper: #F5F7FA;
+  --surface: #FFFFFF;
+  --ink: #15202D;
+  --muted: #5F6876;
+  --line: #DCE2EA;
+  --sky-top: #C9DCF0;
+  --sky-low: #F2E2C6;
+  --sun: #C98A2E;
+  --action: #2F64B3;
+  --action-ink: #FFFFFF;
+  /* The app's level colours, used as they are in the app. */
+  --c-ung: #4A90E2;
+  --c-vid: #347E83;
+  --c-eft: #3F5F9E;
+  --c-and: #B44E6B;
+  --c-ai: #61708A;
+  --phone-veil: rgba(255, 255, 255, 0.6);
+  --phone-ink: #000000;
+  --font-display: "Familjen Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Public Sans", "Segoe UI", system-ui, sans-serif;
+  --radius: 18px;
+  --wrap: 1120px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0F151D;
+    --surface: #18212C;
+    --ink: #E9EEF4;
+    --muted: #A3ADBA;
+    --line: #2A3542;
+    --sky-top: #16263A;
+    --sky-low: #3A2E22;
+    --sun: #E7B36A;
+    --action: #6EA4EE;
+    --action-ink: #0D1622;
+    --phone-veil: rgba(0, 0, 0, 0.6);
+    --phone-ink: #FFFFFF;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0F151D;
+  --surface: #18212C;
+  --ink: #E9EEF4;
+  --muted: #A3ADBA;
+  --line: #2A3542;
+  --sky-top: #16263A;
+  --sky-low: #3A2E22;
+  --sun: #E7B36A;
+  --action: #6EA4EE;
+  --action-ink: #0D1622;
+  --phone-veil: rgba(0, 0, 0, 0.6);
+  --phone-ink: #FFFFFF;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.6;
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: 3px solid var(--action);
+  outline-offset: 3px;
+}
+h1, h2, h3 {
+  font-family: var(--font-display);
+  line-height: 1.1;
+  margin: 0;
+  text-wrap: balance;
+  letter-spacing: -0.01em;
+}
+p { margin: 0; }
+.wrap {
+  width: 100%;
+  max-width: var(--wrap);
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+@media (max-width: 480px) { .wrap { padding-inline: 16px; } }
+.eyebrow {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.rose { width: 100%; height: 100%; color: var(--ink); }
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 22px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 16px;
+  text-decoration: none;
+  border: 1.5px solid transparent;
+  cursor: pointer;
+  font-family: inherit;
+}
+.btn-primary { background: var(--action); color: var(--action-ink); }
+.btn-primary:hover { filter: brightness(1.08); }
+.btn-ghost { border-color: var(--ink); color: var(--ink); background: transparent; }
+.btn-ghost:hover { background: color-mix(in srgb, var(--ink) 8%, transparent); }
+
+/* Header */
+.site-header {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 10;
+  background: color-mix(in srgb, var(--paper) 86%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding-block: 12px;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 19px;
+  margin-right: auto;
+  min-width: 0;
+}
+.brand-mark { width: 34px; height: 34px; flex: none; }
+.nav-links { display: flex; gap: 22px; list-style: none; margin: 0; padding: 0; }
+.nav-links a { text-decoration: none; font-size: 15px; font-weight: 500; color: var(--muted); }
+.nav-links a:hover { color: var(--ink); }
+.nav .btn { padding: 9px 18px; font-size: 15px; }
+@media (max-width: 860px) { .nav-links { display: none; } }
+@media (max-width: 400px) { .brand span { font-size: 16px; } .nav .btn { padding: 8px 14px; } }
+
+/* Hero: the evening sky from the app's background photo */
+.hero {
+  background: linear-gradient(180deg, var(--sky-top) 0%, var(--sky-low) 100%);
+  overflow: hidden;
+}
+.hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  align-items: center;
+  gap: 48px;
+  padding-block: 72px 0;
+}
+.hero-copy { display: grid; gap: 22px; padding-bottom: 72px; min-width: 0; }
+.hero h1 { font-size: clamp(42px, 6.4vw, 76px); font-weight: 700; }
+.hero h1 em { font-style: normal; color: var(--c-eft); }
+:root[data-theme="dark"] .hero h1 em { color: var(--sun); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .hero h1 em { color: var(--sun); } }
+.hero .lead { font-size: 19px; max-width: 34em; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.hero-note { font-size: 14px; color: var(--muted); }
+.hero-phone { justify-self: center; align-self: end; }
+@media (max-width: 860px) {
+  .hero-grid { grid-template-columns: 1fr; padding-block: 48px 0; gap: 8px; }
+  .hero-copy { padding-bottom: 32px; }
+}
+
+/* Phone mock-up of the app's home screen */
+.phone {
+  width: 300px;
+  max-width: 78vw;
+  aspect-ratio: 9 / 19;
+  border-radius: 46px 46px 0 0;
+  padding: 12px 12px 0;
+  background: #0B0F14;
+  box-shadow: 0 30px 60px -20px rgba(16, 28, 46, 0.45);
+}
+.screen {
+  position: relative;
+  height: 100%;
+  border-radius: 36px 36px 0 0;
+  overflow: hidden;
+  background: url("fjord.jpg") center / cover;
+  color: var(--phone-ink);
+  display: flex;
+  flex-direction: column;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+.screen::before { content: ""; position: absolute; inset: 0; background: var(--phone-veil); }
+.screen > * { position: relative; }
+.island { width: 92px; height: 26px; border-radius: 20px; background: #0B0F14; margin: 10px auto 0; }
+.app-title { text-align: center; font-size: 21px; font-weight: 600; margin-top: 46px; }
+.app-body { margin-top: auto; padding: 0 12px 10px; display: grid; gap: 9px; }
+.app-question { text-align: center; font-size: 14px; font-weight: 700; }
+.app-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.app-btn {
+  aspect-ratio: 1.4;
+  border-radius: 12px;
+  padding: 7px;
+  color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+.app-btn b { font-size: 10px; line-height: 1.2; font-weight: 800; }
+.app-btn small { font-size: 8px; line-height: 1.25; opacity: 0.9; }
+.app-wide { aspect-ratio: auto; grid-column: 1 / -1; align-items: center; padding: 9px; }
+.app-tabs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding: 8px 6px 14px;
+  background: color-mix(in srgb, var(--paper) 92%, transparent);
+  font-size: 9px;
+  text-align: center;
+  color: var(--muted);
+}
+.app-tabs span { display: grid; justify-items: center; gap: 2px; }
+.app-tabs span:first-child { color: var(--ink); font-weight: 600; }
+.app-tabs svg { width: 18px; height: 18px; }
+
+/* Sections */
+section { padding-block: 96px; }
+@media (max-width: 640px) { section { padding-block: 64px; } }
+.section-head { display: grid; gap: 14px; max-width: 40em; margin-bottom: 44px; }
+.section-head h2 { font-size: clamp(32px, 4.2vw, 48px); font-weight: 700; }
+.section-head p { color: var(--muted); font-size: 18px; }
+
+/* Levels: the four buttons from the app's home screen */
+.levels { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 960px) { .levels { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .levels { grid-template-columns: 1fr; } }
+.level {
+  border-radius: var(--radius);
+  padding: 24px;
+  color: #FFFFFF;
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  min-width: 0;
+}
+.level h3 { font-size: 23px; }
+.level p { font-size: 15px; opacity: 0.92; }
+.level ul { list-style: none; margin: 6px 0 0; padding: 12px 0 0; border-top: 1px solid rgba(255, 255, 255, 0.35); display: grid; gap: 4px; font-size: 15px; font-weight: 500; }
+
+/* Features */
+.features { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px 32px; }
+@media (max-width: 860px) { .features { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .features { grid-template-columns: 1fr; } }
+.feature { display: grid; gap: 10px; align-content: start; min-width: 0; }
+.feature-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  color: #FFFFFF;
+}
+.feature-icon svg { width: 22px; height: 22px; }
+.feature h3 { font-size: 21px; }
+.feature p { color: var(--muted); font-size: 16px; }
+
+/* Steps: a real sequence, so they are numbered */
+.how { background: var(--surface); border-block: 1px solid var(--line); }
+.steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; counter-reset: step; }
+@media (max-width: 860px) { .steps { grid-template-columns: 1fr; gap: 28px; } }
+.steps li { display: grid; gap: 10px; align-content: start; counter-increment: step; min-width: 0; }
+.steps li::before {
+  content: counter(step);
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  border: 1.5px solid var(--ink);
+}
+.steps h3 { font-size: 22px; }
+.steps p { color: var(--muted); font-size: 16px; }
+
+/* Schools */
+.schools-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; align-items: start; }
+@media (max-width: 860px) { .schools-grid { grid-template-columns: 1fr; gap: 28px; } }
+.checklist { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.checklist li { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 12px; font-size: 17px; }
+.checklist svg { width: 22px; height: 22px; color: var(--c-vid); margin-top: 3px; }
+.schools .btn { margin-top: 8px; justify-self: start; }
+
+/* FAQ */
+.faq { background: var(--surface); border-block: 1px solid var(--line); }
+.faq-list { display: grid; max-width: 820px; }
+.faq details { border-bottom: 1px solid var(--line); }
+.faq details:first-child { border-top: 1px solid var(--line); }
+.faq summary {
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 0;
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 600;
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; font-size: 24px; line-height: 1; color: var(--muted); }
+.faq details[open] summary::after { content: "−"; }
+.faq details p { padding-bottom: 20px; color: var(--muted); max-width: 44em; }
+
+/* Download */
+.download-card {
+  border-radius: 28px;
+  padding: clamp(28px, 5vw, 56px);
+  background: linear-gradient(135deg, var(--c-eft), var(--c-vid));
+  color: #FFFFFF;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 32px;
+  align-items: center;
+}
+@media (max-width: 760px) { .download-card { grid-template-columns: 1fr; } }
+.download-card h2 { font-size: clamp(30px, 4vw, 44px); }
+.download-card p { opacity: 0.9; margin-top: 12px; max-width: 32em; }
+.stores { display: grid; gap: 10px; }
+.store {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 18px;
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  min-width: 210px;
+}
+.store svg { width: 24px; height: 24px; flex: none; }
+.store span { display: grid; line-height: 1.2; }
+.store small { font-size: 12px; opacity: 0.8; }
+.store b { font-size: 17px; }
+
+/* Contact */
+.contact-grid { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 48px; }
+@media (max-width: 860px) { .contact-grid { grid-template-columns: 1fr; gap: 28px; } }
+form { display: grid; gap: 16px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 28px; }
+@media (max-width: 480px) { form { padding: 20px; } }
+.field { display: grid; gap: 6px; }
+.row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 560px) { .row-2 { grid-template-columns: 1fr; } }
+label { font-size: 14px; font-weight: 600; }
+input, select, textarea {
+  font: inherit;
+  font-size: 16px;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 11px 12px;
+  width: 100%;
+}
+textarea { min-height: 120px; resize: vertical; }
+form .btn { justify-self: start; }
+.form-status { font-size: 15px; color: var(--muted); }
+
+/* Privacy + footer */
+.privacy { padding-block: 64px; }
+.privacy-text { display: grid; gap: 12px; max-width: 44em; color: var(--muted); }
+.privacy-text h2 { font-size: 28px; color: var(--ink); margin-bottom: 4px; }
+footer { border-top: 1px solid var(--line); padding-block: 36px; font-size: 15px; color: var(--muted); }
+.footer-grid { display: flex; flex-wrap: wrap; gap: 16px 32px; align-items: center; justify-content: space-between; }
+.footer-links { display: flex; flex-wrap: wrap; gap: 8px 22px; list-style: none; margin: 0; padding: 0; }
+.footer-links a { text-decoration: none; }
+.footer-links a:hover { color: var(--ink); text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="wrap nav" aria-label="Hovedmenu">
+    <a class="brand" href="#top">
+      <svg class="brand-mark rose" viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="150" r="78" stroke="currentColor" stroke-width="5" fill="none"/><polygon points="198.1,101.9 150,150 150.0,137.3" fill="var(--muted)"/><polygon points="198.1,101.9 150,150 162.7,150.0" fill="var(--muted)" opacity=".5"/><polygon points="198.1,198.1 150,150 162.7,150.0" fill="var(--muted)"/><polygon points="198.1,198.1 150,150 150.0,162.7" fill="var(--muted)" opacity=".5"/><polygon points="101.9,198.1 150,150 150.0,162.7" fill="var(--muted)"/><polygon points="101.9,198.1 150,150 137.3,150.0" fill="var(--muted)" opacity=".5"/><polygon points="101.9,101.9 150,150 137.3,150.0" fill="var(--muted)"/><polygon points="101.9,101.9 150,150 150.0,137.3" fill="var(--muted)" opacity=".5"/><polygon points="150.0,4.0 150,150 139.0,139.0" fill="var(--c-ung)"/><polygon points="150.0,4.0 150,150 161.0,139.0" fill="var(--c-ung)" opacity=".5"/><polygon points="296.0,150.0 150,150 161.0,139.0" fill="var(--c-vid)"/><polygon points="296.0,150.0 150,150 161.0,161.0" fill="var(--c-vid)" opacity=".5"/><polygon points="150.0,296.0 150,150 161.0,161.0" fill="var(--c-eft)"/><polygon points="150.0,296.0 150,150 139.0,161.0" fill="var(--c-eft)" opacity=".5"/><polygon points="4.0,150.0 150,150 139.0,161.0" fill="var(--c-and)"/><polygon points="4.0,150.0 150,150 139.0,139.0" fill="var(--c-and)" opacity=".5"/><circle cx="150" cy="150" r="5" fill="currentColor"/></svg>
+      <span>Uddannelseskompasset</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#funktioner">Funktioner</a></li>
+      <li><a href="#saadan">Sådan virker det</a></li>
+      <li><a href="#skoler">For skoler</a></li>
+      <li><a href="#spoergsmaal">Spørgsmål</a></li>
+      <li><a href="#kontakt">Kontakt</a></li>
+    </ul>
+    <a class="btn btn-primary" href="#hent">Hent appen</a>
+  </nav>
+</header>
+
+<main id="top">
+  <div class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">Uddannelsesvejledning i lommen</p>
+        <h1>Find den vej, der <em>passer til dig</em></h1>
+        <p class="lead">Uddannelseskompasset samler ungdomsuddannelser, videregående uddannelser og efteruddannelse ét sted. Se krav og snit, gem dine favoritter og få forslag ud fra dine interesser.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#hent">Hent appen</a>
+          <a class="btn btn-ghost" href="#saadan">Se hvordan den virker</a>
+        </div>
+        <p class="hero-note">Gratis for elever og studerende · Til iPhone, Android og web</p>
+      </div>
+
+      <div class="hero-phone" aria-label="Appens forside">
+        <div class="phone">
+          <div class="screen">
+            <div class="island"></div>
+            <p class="app-title">Uddannelseskompasset</p>
+            <div class="app-body">
+              <p class="app-question">Hvad leder du efter?</p>
+              <div class="app-grid">
+                <div class="app-btn" style="background: var(--c-ung)"><b>Ungdomsuddannelse</b><small>Gymnasium, erhvervsuddannelse, EUX eller EPX</small></div>
+                <div class="app-btn" style="background: var(--c-vid)"><b>Videregående uddannelse</b><small>Universitet, professionshøjskole eller erhvervsakademi</small></div>
+                <div class="app-btn" style="background: var(--c-eft)"><b>Efteruddannelse</b><small>Kurser og uddannelse ved siden af dit job</small></div>
+                <div class="app-btn" style="background: var(--c-and)"><b>Andet</b><small>Noget helt fjerde, eller du er ikke sikker endnu</small></div>
+                <div class="app-btn app-wide" style="background: var(--c-ai)"><b>Find min fremtid</b><small>Spørg AI-guiden om fag, krav og snit</small></div>
+              </div>
+            </div>
+            <div class="app-tabs" aria-hidden="true">
+              <span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3 2 11h3v9h5v-6h4v6h5v-9h3z"/></svg>Hjem</span>
+              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>Søg</span>
+              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>Favoritter</span>
+              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Profil</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section id="retninger">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Fire veje ind</p>
+        <h2>Start med det, du leder efter</h2>
+        <p>Appens forside har fire indgange. Vælg den, der passer til, hvor du er nu, og kompasset viser dig retningerne derfra.</p>
+      </div>
+      <div class="levels">
+        <article class="level" style="background: var(--c-ung)">
+          <h3>Ungdomsuddannelse</h3>
+          <p>Til dig, der skal vælge efter folkeskolen eller 10. klasse.</p>
+          <ul><li>Gymnasium</li><li>Erhvervsuddannelse</li><li>EUX</li><li>EPX</li></ul>
+        </article>
+        <article class="level" style="background: var(--c-vid)">
+          <h3>Videregående uddannelse</h3>
+          <p>Til dig, der har en ungdomsuddannelse og vil læse videre.</p>
+          <ul><li>Universitet</li><li>Professionshøjskole</li><li>Erhvervsakademi</li><li>Kunstneriske uddannelser</li></ul>
+        </article>
+        <article class="level" style="background: var(--c-eft)">
+          <h3>Efteruddannelse</h3>
+          <p>Til dig, der er i job og vil lære mere ved siden af.</p>
+          <ul><li>AMU-kurser</li><li>EUV</li><li>Akademi og diplom</li><li>Masteruddannelse</li></ul>
+        </article>
+        <article class="level" style="background: var(--c-and)">
+          <h3>Andet</h3>
+          <p>Til dig, der ikke ved, hvor du skal starte.</p>
+          <ul><li>Personlighedstest</li><li>AI-vejleder</li><li>Ordbog over uddannelsesord</li></ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="funktioner" class="how">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Funktioner</p>
+        <h2>Alt det, du skal bruge for at vælge</h2>
+        <p>Appen samler information, der ellers ligger spredt på mange hjemmesider, og gør den personlig.</p>
+      </div>
+      <div class="features">
+        <div class="feature">
+          <div class="feature-icon" style="background: var(--c-ung)"><svg class="rose" viewBox="0 0 300 300" aria-hidden="true" style="color:#fff"><circle cx="150" cy="150" r="78" stroke="currentColor" stroke-width="5" fill="none"/><polygon points="198.1,101.9 150,150 150.0,137.3" fill="currentColor"/><polygon points="198.1,101.9 150,150 162.7,150.0" fill="currentColor" opacity=".5"/><polygon points="198.1,198.1 150,150 162.7,150.0" fill="currentColor"/><polygon points="198.1,198.1 150,150 150.0,162.7" fill="currentColor" opacity=".5"/><polygon points="101.9,198.1 150,150 150.0,162.7" fill="currentColor"/><polygon points="101.9,198.1 150,150 137.3,150.0" fill="currentColor" opacity=".5"/><polygon points="101.9,101.9 150,150 137.3,150.0" fill="currentColor"/><polygon points="101.9,101.9 150,150 150.0,137.3" fill="currentColor" opacity=".5"/><polygon points="150.0,4.0 150,150 139.0,139.0" fill="currentColor"/><polygon points="150.0,4.0 150,150 161.0,139.0" fill="currentColor" opacity=".5"/><polygon points="296.0,150.0 150,150 161.0,139.0" fill="currentColor"/><polygon points="296.0,150.0 150,150 161.0,161.0" fill="currentColor" opacity=".5"/><polygon points="150.0,296.0 150,150 161.0,161.0" fill="currentColor"/><polygon points="150.0,296.0 150,150 139.0,161.0" fill="currentColor" opacity=".5"/><polygon points="4.0,150.0 150,150 139.0,161.0" fill="currentColor"/><polygon points="4.0,150.0 150,150 139.0,139.0" fill="currentColor" opacity=".5"/><circle cx="150" cy="150" r="5" fill="currentColor"/></svg></div>
+          <h3>Kompasset</h3>
+          <p>Se retningerne som et kompas med fire verdenshjørner, og tryk dig ind på den, der fanger dig.</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon" style="background: var(--c-vid)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></div>
+          <h3>Søg</h3>
+          <p>Find uddannelser og job på navn, fag eller emne, fx “læge”, “tømrer” eller “matematik”.</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon" style="background: var(--c-and)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2.8 2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17.2l-5.6 3 1.1-6.3L2.9 9.5l6.3-.9z"/></svg></div>
+          <h3>Favoritter</h3>
+          <p>Tryk på stjernen ved en uddannelse eller et job, og saml dem, du vil kigge nærmere på.</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon" style="background: var(--c-eft)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></div>
+          <h3>Profil og forslag</h3>
+          <p>Fortæl om dine interesser, yndlingsfag og drømmejob, og få 5 forslag med en begrundelse.</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon" style="background: var(--c-vid)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 21V5"/><path d="M9 8h6"/></svg></div>
+          <h3>Ordbog</h3>
+          <p>Hvad er merit, A-niveau, kvote 2 og SU? 28 ord om uddannelse forklaret i et sprog, man forstår.</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon" style="background: var(--c-ai)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 5h16v11H9l-5 4z"/></svg></div>
+          <h3>AI-vejleder</h3>
+          <p>Spørg om krav, snit og studieretninger, eller tal om, hvad der kunne passe til dig.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="saadan">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Sådan virker det</p>
+        <h2>Fra “ved ikke” til en plan på tre trin</h2>
+      </div>
+      <ol class="steps">
+        <li>
+          <h3>Fortæl lidt om dig selv</h3>
+          <p>Udfyld din profil med interesser, yndlingsfag, drømmejob og hvad du laver nu. Det tager et par minutter.</p>
+        </li>
+        <li>
+          <h3>Få dine forslag</h3>
+          <p>Appen viser 5 uddannelser og job, der passer til dig, og fortæller hvorfor. Forslagene ændrer sig, når du ændrer profilen.</p>
+        </li>
+        <li>
+          <h3>Gå i dybden</h3>
+          <p>Se krav, snit og muligheder, gem dine favoritter, og spørg AI-vejlederen om det, du er i tvivl om.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="skoler" class="how schools">
+    <div class="wrap schools-grid">
+      <div class="section-head" style="margin-bottom:0">
+        <p class="eyebrow">For skoler og vejledere</p>
+        <h2>Et redskab mellem vejledningssamtalerne</h2>
+        <p>Uddannelseskompasset kan bruges i folkeskolen, på ungdomsuddannelserne og i kommunens vejledning, så eleverne kommer forberedt til samtalen.</p>
+        <a class="btn btn-primary" href="#kontakt">Hør om et pilotforløb</a>
+      </div>
+      <ul class="checklist">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m5 12 5 5 9-10"/></svg><span>Eleverne kan selv undersøge retninger, krav og snit i deres eget tempo.</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m5 12 5 5 9-10"/></svg><span>Profil og favoritter giver et konkret udgangspunkt for vejledningssamtalen.</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m5 12 5 5 9-10"/></svg><span>Ordbogen hjælper elever og forældre med de ord, systemet bruger.</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m5 12 5 5 9-10"/></svg><span>Elevernes profil bliver på deres egen telefon og deles ikke med skolen.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="spoergsmaal">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Spørgsmål og svar</p>
+        <h2>Det bliver vi tit spurgt om</h2>
+      </div>
+      <div class="faq-list">
+        <details>
+          <summary>Koster appen noget?</summary>
+          <p>Nej, appen er gratis for elever og studerende. Skoler og kommuner, der vil bruge den i vejledningen, kan kontakte os.</p>
+        </details>
+        <details>
+          <summary>Hvor bliver mine oplysninger gemt?</summary>
+          <p>Din profil, dit profilbillede og dine favoritter bliver kun gemt på din egen telefon. Vi har ingen konto og ingen server, hvor de ligger.</p>
+        </details>
+        <details>
+          <summary>Hvor kommer oplysningerne om uddannelserne fra?</summary>
+          <p>Teksterne er skrevet ud fra offentlige oplysninger om uddannelserne. Snit og krav ændrer sig fra år til år, så tjek altid de aktuelle tal hos uddannelsesstedet eller på optagelse.dk, før du søger.</p>
+        </details>
+        <details>
+          <summary>Kan AI-vejlederen tage fejl?</summary>
+          <p>Ja. AI-vejlederen er god til at give overblik og idéer, men den kan tage fejl. Brug den som et sted at starte, og tal med en studievejleder eller UU-vejleder, før du træffer dit valg.</p>
+        </details>
+        <details>
+          <summary>Hvornår kan jeg hente appen?</summary>
+          <p>Appen er på vej til App Store og Google Play. Skriv til os, hvis du vil have besked, når den er ude.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section id="hent" style="padding-top:0">
+    <div class="wrap">
+      <div class="download-card">
+        <div>
+          <h2>Appen er på vej</h2>
+          <p>Uddannelseskompasset kommer snart til iPhone og Android. Indtil da kan du skrive til os og høre mere.</p>
+        </div>
+        <div class="stores">
+          <div class="store"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.4 12.6c0-2.4 2-3.6 2.1-3.7-1.1-1.7-2.9-1.9-3.5-1.9-1.5-.2-2.9.9-3.7.9-.8 0-1.9-.9-3.2-.8-1.6 0-3.1 1-4 2.4-1.7 3-.4 7.4 1.2 9.8.8 1.2 1.8 2.5 3 2.4 1.2 0 1.7-.8 3.1-.8 1.5 0 1.9.8 3.2.8 1.3 0 2.2-1.2 3-2.4.9-1.4 1.3-2.7 1.3-2.8-.1 0-2.5-1-2.5-3.9zM14 5.5c.7-.8 1.1-1.9 1-3-1 0-2.1.7-2.8 1.5-.6.7-1.2 1.8-1 2.9 1 .1 2.1-.6 2.8-1.4z"/></svg><span><small>Kommer snart i</small><b>App Store</b></span></div>
+          <div class="store"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2.5v19l10-9.5zM15.3 13.2 6.6 21.6l11-6.3zM17.7 9 6.6 2.4l8.7 8.4zM18.8 9.7l-2.6 2.3 2.6 2.4 2.9-1.6c.8-.5.8-1.1 0-1.6z"/></svg><span><small>Kommer snart på</small><b>Google Play</b></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="kontakt" class="how">
+    <div class="wrap contact-grid">
+      <div class="section-head" style="margin-bottom:0">
+        <p class="eyebrow">Kontakt</p>
+        <h2>Skriv til os</h2>
+        <p>Har du et spørgsmål, en idé eller fundet en fejl i en uddannelse? Er du vejleder og vil prøve appen med en klasse? Så hører vi gerne fra dig.</p>
+      </div>
+      <form id="contact-form" novalidate>
+        <div class="row-2">
+          <div class="field">
+            <label for="name">Navn</label>
+            <input id="name" name="name" autocomplete="name" required>
+          </div>
+          <div class="field">
+            <label for="email">E-mail</label>
+            <input id="email" name="email" type="email" autocomplete="email" required>
+          </div>
+        </div>
+        <div class="field">
+          <label for="role">Jeg er</label>
+          <select id="role" name="role">
+            <option>Elev eller studerende</option>
+            <option>Forælder</option>
+            <option>Lærer eller vejleder</option>
+            <option>Fra en kommune eller skole</option>
+            <option>Andet</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="message">Besked</label>
+          <textarea id="message" name="message" required></textarea>
+        </div>
+        <button class="btn btn-primary" type="submit">Send besked</button>
+        <p class="form-status" id="form-status" role="status"></p>
+      </form>
+    </div>
+  </section>
+
+  <section id="privatliv" class="privacy">
+    <div class="wrap privacy-text">
+      <h2>Privatliv</h2>
+      <p>Din profil, dit profilbillede og dine favoritter bliver kun gemt på din egen telefon. Sletter du appen, forsvinder de også.</p>
+      <p>Når du skriver med AI-vejlederen eller “Find min fremtid”, bliver dine beskeder sendt til en AI-tjeneste for at lave et svar. Skriv derfor ikke personlige oplysninger som CPR-nummer i chatten.</p>
+      <p>Hjemmesiden bruger ingen cookies til sporing.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap footer-grid">
+    <a class="brand" href="#top">
+      <svg class="brand-mark rose" viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="150" r="78" stroke="currentColor" stroke-width="5" fill="none"/><polygon points="198.1,101.9 150,150 150.0,137.3" fill="var(--muted)"/><polygon points="198.1,101.9 150,150 162.7,150.0" fill="var(--muted)" opacity=".5"/><polygon points="198.1,198.1 150,150 162.7,150.0" fill="var(--muted)"/><polygon points="198.1,198.1 150,150 150.0,162.7" fill="var(--muted)" opacity=".5"/><polygon points="101.9,198.1 150,150 150.0,162.7" fill="var(--muted)"/><polygon points="101.9,198.1 150,150 137.3,150.0" fill="var(--muted)" opacity=".5"/><polygon points="101.9,101.9 150,150 137.3,150.0" fill="var(--muted)"/><polygon points="101.9,101.9 150,150 150.0,137.3" fill="var(--muted)" opacity=".5"/><polygon points="150.0,4.0 150,150 139.0,139.0" fill="var(--c-ung)"/><polygon points="150.0,4.0 150,150 161.0,139.0" fill="var(--c-ung)" opacity=".5"/><polygon points="296.0,150.0 150,150 161.0,139.0" fill="var(--c-vid)"/><polygon points="296.0,150.0 150,150 161.0,161.0" fill="var(--c-vid)" opacity=".5"/><polygon points="150.0,296.0 150,150 161.0,161.0" fill="var(--c-eft)"/><polygon points="150.0,296.0 150,150 139.0,161.0" fill="var(--c-eft)" opacity=".5"/><polygon points="4.0,150.0 150,150 139.0,161.0" fill="var(--c-and)"/><polygon points="4.0,150.0 150,150 139.0,139.0" fill="var(--c-and)" opacity=".5"/><circle cx="150" cy="150" r="5" fill="currentColor"/></svg>
+      <span>Uddannelseskompasset</span>
+    </a>
+    <ul class="footer-links">
+      <li><a href="#funktioner">Funktioner</a></li>
+      <li><a href="#skoler">For skoler</a></li>
+      <li><a href="#spoergsmaal">Spørgsmål</a></li>
+      <li><a href="#kontakt">Kontakt</a></li>
+      <li><a href="#privatliv">Privatliv</a></li>
+    </ul>
+    <p>© 2026 Uddannelseskompasset</p>
+  </div>
+</footer>
+
+<script>
+  // The form isn't connected to an inbox yet, so it only checks the fields and says so.
+  const form = document.getElementById('contact-form');
+  const status = document.getElementById('form-status');
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    if (!form.checkValidity()) {
+      status.textContent = 'Udfyld navn, en gyldig e-mail og en besked.';
+      form.querySelector(':invalid')?.focus();
+      return;
+    }
+    status.textContent = 'Formularen er ikke koblet til en indbakke endnu, så beskeden blev ikke sendt.';
+  });
+</script>
+</body>
+</html>
